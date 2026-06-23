@@ -53,6 +53,20 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		],
 	});
 
+	// 关于及其子菜单
+	links.push({
+		name: "关于",
+		url: "#",
+		icon: "material-symbols:info",
+		children: [
+			// 打赏
+			LinkPresets.Sponsor,
+
+			// 关于页面
+			LinkPresets.About,
+		],
+	});
+
 	// 文档链接
 	// links.push({
 	// 	name: "文档",
@@ -111,6 +125,11 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		url: "/guestbook/",
 		icon: "material-symbols:chat",
 		pageKey: "guestbook",
+	},
+	About: {
+		name: "关于我",
+		url: "/about/",
+		icon: "material-symbols:person",
 	},
 	Bangumi: {
 		name: "番组计划",
