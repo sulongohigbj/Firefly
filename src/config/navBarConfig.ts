@@ -16,23 +16,6 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		LinkPresets.Home,
 	];
 
-	// 文章及其子菜单
-	links.push({
-		name: "文章",
-		url: "#",
-		icon: "material-symbols:article",
-		children: [
-			// 归档
-			LinkPresets.Archive,
-
-			// 分类
-			LinkPresets.Categories,
-
-			// 标签
-			LinkPresets.Tags,
-		],
-	});
-
 	// 友链
 	links.push(LinkPresets.Friends);
 
