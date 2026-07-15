@@ -31,6 +31,16 @@ export const friendsConfig: FriendLink[] = [
 		tags: ["Blog"],
 		weight: 10, // 权重，数字越大排序越靠前
 		enabled: true, // 是否启用
+	},
+	{
+		title: "pornhub",
+		imgurl:
+			"/img/pornhub.png",
+		desc: "全球最大的色情视频网站",
+		siteurl: "https://www.pornhub.com/",
+		tags: ["NSFW"],
+		weight: 10, // 权重，数字越大排序越靠前
+		enabled: true, // 是否启用
 	}
 ];
 
