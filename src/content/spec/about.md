@@ -6,5 +6,4 @@
 # 本人联系方式
 
 QQ：3771411681  
-Telegram：@djordan3290  
 BiliBili：[主页](https://space.bilibili.com/3493125756553794)

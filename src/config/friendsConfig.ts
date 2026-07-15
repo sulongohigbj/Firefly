@@ -27,7 +27,7 @@ export const friendsConfig: FriendLink[] = [
 		imgurl:
 			"/img/shane.jpg",
 		desc: "站长朋友的博客",
-		siteurl: "https://shane00413-wq.github.io",
+		siteurl: "https://shane-blog.pages.dev/",
 		tags: ["Blog"],
 		weight: 10, // 权重，数字越大排序越靠前
 		enabled: true, // 是否启用
