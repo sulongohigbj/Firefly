@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>登录</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				margin: 0;
+				padding: 0;
+				background: #f4f7fb;
+				color: #1f2937;
+			}
+			main {
+				max-width: 420px;
+				margin: 6rem auto;
+				padding: 2rem;
+				background: white;
+				border-radius: 16px;
+				box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+			}
+			form {
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+			}
+			input {
+				padding: 0.8rem 1rem;
+				border: 1px solid #d1d5db;
+				border-radius: 10px;
+				font-size: 1rem;
+			}
+			button {
+				padding: 0.85rem 1rem;
+				border: 0;
+				border-radius: 10px;
+				background: #2563eb;
+				color: white;
+				font-size: 1rem;
+				cursor: pointer;
+			}
+			a {
+				color: #2563eb;
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<h1>登录</h1>
+			<p>使用 D1 数据库中的账号信息完成登录。</p>
+			<form action="/api/auth/login" method="post">
+				<label>
+					<span>用户名</span>
+					<input type="text" name="username" required />
+				</label>
+				<label>
+					<span>密码</span>
+					<input type="password" name="password" required />
+				</label>
+				<button type="submit">登录</button>
+			</form>
+			<p>
+				还没有账号？
+				<a href="/register">立即注册</a>
+			</p>
+		</main>
+	</body>
+</html>
