@@ -19,6 +19,9 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 	// 友链
 	links.push(LinkPresets.Friends);
 
+	// 登录
+	links.push(LinkPresets.Login);
+
 	// 留言板
 	links.push(LinkPresets.Guestbook);
 
@@ -113,6 +116,11 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		name: "关于我",
 		url: "/about/",
 		icon: "material-symbols:person",
+	},
+	Login: {
+		name: "登录",
+		url: "/login/",
+		icon: "material-symbols:login",
 	},
 	Bangumi: {
 		name: "番组计划",
