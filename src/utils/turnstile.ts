@@ -6,8 +6,21 @@ interface TurnstileVerificationResponse {
 }
 
 function getTurnstileSecret(context: APIContext): string | null {
-	const runtimeEnv = (context.locals as { runtime?: { env?: Record<string, string | undefined> } }).runtime?.env;
-	return runtimeEnv?.TURNSTILE_SECRET_KEY ?? (import.meta.env.TURNSTILE_SECRET_KEY as string | undefined) ?? null;
+	try {
+		const locals = (context as { locals?: { runtime?: { env?: Record<string, string | undefined> } } }).locals;
+		const runtimeEnv = locals?.runtime?.env;
+		const runtimeSecret = runtimeEnv?.TURNSTILE_SECRET_KEY;
+		if (typeof runtimeSecret === "string" && runtimeSecret.length > 0) {
+			return runtimeSecret;
+		}
+
+		const importMetaSecret = import.meta.env?.TURNSTILE_SECRET_KEY;
+		return typeof importMetaSecret === "string" && importMetaSecret.length > 0
+			? importMetaSecret
+			: null;
+	} catch {
+		return null;
+	}
 }
 
 export async function verifyTurnstileToken(context: APIContext, token: string): Promise<boolean> {

@@ -17,13 +17,21 @@ type RuntimeEnv = {
 	ADMIN_PASSWORD?: string;
 };
 
+function getRuntimeEnv(context: APIContext): RuntimeEnv | undefined {
+	try {
+		const locals = (context as { locals?: { runtime?: { env?: RuntimeEnv } } }).locals;
+		return locals?.runtime?.env;
+	} catch {
+		return undefined;
+	}
+}
+
 export function getD1Database(context: APIContext): D1DatabaseLike | null {
-	const runtime = (context.locals as { runtime?: { env?: RuntimeEnv } }).runtime;
-	return runtime?.env?.DB ?? null;
+	return getRuntimeEnv(context)?.DB ?? null;
 }
 
 function getEnvValue(context: APIContext, key: keyof RuntimeEnv): string | null {
-	const runtimeEnv = (context.locals as { runtime?: { env?: Partial<RuntimeEnv> } }).runtime?.env;
+	const runtimeEnv = getRuntimeEnv(context);
 	const value = runtimeEnv?.[key];
 	return typeof value === "string" ? value : null;
 }
