@@ -31,7 +31,19 @@ function jsonResponse(body: unknown, status = 200): Response {
 export async function POST(context: APIContext): Promise<Response> {
 	const db = getD1Database(context);
 	if (!db) {
-		return jsonResponse({ success: false, message: "D1 数据库绑定未配置" }, 500);
+		const runtimeKeys = Object.keys((context as { locals?: unknown; env?: unknown }).locals ?? {});
+		const envKeys = Object.keys((context as { env?: Record<string, unknown> }).env ?? {});
+		return jsonResponse(
+			{
+				success: false,
+				message: "D1 数据库绑定未配置",
+				debug: {
+					localsKeys: runtimeKeys,
+					envKeys,
+				},
+			},
+			500,
+		);
 	}
 
 	await ensureSessionsTable(db);

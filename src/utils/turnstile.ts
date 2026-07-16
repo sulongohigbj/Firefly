@@ -7,8 +7,12 @@ interface TurnstileVerificationResponse {
 
 function getTurnstileSecret(context: APIContext): string | null {
 	try {
-		const locals = (context as { locals?: { runtime?: { env?: Record<string, string | undefined> } } }).locals;
-		const runtimeEnv = locals?.runtime?.env;
+		const locals = (context as {
+			locals?: { runtime?: { env?: Record<string, string | undefined> }; env?: Record<string, string | undefined> };
+			env?: Record<string, string | undefined>;
+		}).locals;
+		const directEnv = (context as { env?: Record<string, string | undefined> }).env;
+		const runtimeEnv = locals?.runtime?.env ?? locals?.env ?? directEnv;
 		const runtimeSecret = runtimeEnv?.TURNSTILE_SECRET_KEY;
 		if (typeof runtimeSecret === "string" && runtimeSecret.length > 0) {
 			return runtimeSecret;

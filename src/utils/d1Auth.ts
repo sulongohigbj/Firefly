@@ -13,21 +13,63 @@ export interface D1DatabaseLike {
 
 type RuntimeEnv = {
 	DB?: D1DatabaseLike;
+	D1?: D1DatabaseLike;
+	DATABASE?: D1DatabaseLike;
+	db?: D1DatabaseLike;
+	d1?: D1DatabaseLike;
+	database?: D1DatabaseLike;
 	ADMIN_USERNAME?: string;
 	ADMIN_PASSWORD?: string;
 };
 
+function isD1DatabaseLike(value: unknown): value is D1DatabaseLike {
+	return Boolean(
+		value &&
+			typeof value === "object" &&
+			"prepare" in value &&
+			typeof (value as { prepare?: unknown }).prepare === "function",
+	);
+}
+
 function getRuntimeEnv(context: APIContext): RuntimeEnv | undefined {
 	try {
-		const locals = (context as { locals?: { runtime?: { env?: RuntimeEnv } } }).locals;
-		return locals?.runtime?.env;
+		const locals = (context as {
+			locals?: { runtime?: { env?: RuntimeEnv }; env?: RuntimeEnv };
+			env?: RuntimeEnv;
+		}).locals;
+		const directEnv = (context as { env?: RuntimeEnv }).env;
+		return locals?.runtime?.env ?? locals?.env ?? directEnv;
 	} catch {
 		return undefined;
 	}
 }
 
 export function getD1Database(context: APIContext): D1DatabaseLike | null {
-	return getRuntimeEnv(context)?.DB ?? null;
+	const runtimeEnv = getRuntimeEnv(context);
+	const directCandidates = [
+		runtimeEnv?.DB,
+		runtimeEnv?.D1,
+		runtimeEnv?.DATABASE,
+		runtimeEnv?.db,
+		runtimeEnv?.d1,
+		runtimeEnv?.database,
+	];
+
+	for (const candidate of directCandidates) {
+		if (isD1DatabaseLike(candidate)) {
+			return candidate;
+		}
+	}
+
+	if (runtimeEnv) {
+		for (const candidate of Object.values(runtimeEnv)) {
+			if (isD1DatabaseLike(candidate)) {
+				return candidate;
+			}
+		}
+	}
+
+	return null;
 }
 
 function getEnvValue(context: APIContext, key: keyof RuntimeEnv): string | null {
